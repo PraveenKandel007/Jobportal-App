@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body {
+      background-color: #FFE4C4; 
+      color: #333;
+      height: 100vh;
+    }
+    .sidebar {
+      background-color: #08475C; 
+      height: 100vh;
+      padding-top: 20px;
+      position: sticky !important;
+    }
+    .sidebar a {
+      color: #FFE4C4 !important; 
+      padding: 10px;
+      display: block;
+      text-decoration: none;
+    }
+    .sidebar a:hover {
+      background-color: #2183AA; 
+    }
+    .main-content {
+      margin-left: 220px;
+      padding: 20px;
+    }
+    .btn-primary {
+      background-color: #08475C; 
+      border: none;
+    }
+    .btn-primary:hover {
+      background-color: #2183AA; 
+    }
+    .btn-danger {
+      background-color: #d9534f;
+      border: none;
+    }
+    .btn-danger:hover {
+      background-color: #c9302c;
+    }
+    footer {
+      background-color: #08475C; 
+      color: #fff;
+      padding: 10px 0;
+      text-align: center;
+      position: fixed;
+      width: 100%;
+      bottom: 0;
+    }
+    h2 {
+      padding: 0.8rem;
+      border-bottom: #fff 1px solid;
+    }
+    .nav-link {
+      font-size: large;
+      margin-left: 20px;
+    }
+    .registration-container {
+      background-color: #fef8e7;
+      border-radius: 8px;
+      padding: 40px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      max-width: 450px;
+      margin-top: 2rem;
+    }
+    .card-title {
+      color: rgb(8, 71, 92);
+      font-size: 1.5rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="d-flex">
+    <!-- Sidebar -->
+    <nav class="sidebar position-sticky" style="top: 0;">
+      <h2 class="text-center text-white mb-4">
+        <i class="fa-solid fa-gauge me-2"></i>
+        <br>Admin <br>Dashboard   
+      </h2>
+      <a href="#users" class="nav-link"><i class="fa-solid fa-users me-2"></i>Users</a>
+      <a href="#companies" class="nav-link"><i class="fa-solid fa-building me-2"></i>Companies</a>
+      <a href="#jobs" class="nav-link"><i class="fa-solid fa-briefcase me-2"></i>Jobs</a>
+      <a href="#create-admin" class="nav-link"><i class="fa-solid fa-user-plus me-2"></i>Create Admin</a>
+      <a href="/logout" class="btn btn-danger mt-4">Logout</a>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <!-- Users Section -->
+      <section id="users">
+        <h2 class="mb-3">Users</h2>
+        <table class="table  table-bordered">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% users.forEach(user => { %>
+              <tr>
+                <td><%= user.name %></td>
+                <td><%= user.email %></td>
+                <td>
+                  <form action="/admin/users/<%= user.id %>/edit" method="POST">
+                    <select name="role" onchange="this.form.submit()" class="form-select form-select-sm">
+                      <option value="JobSeeker" <%= user.role === 'JobSeeker' ? 'selected' : '' %>>JobSeeker</option>
+                      <option value="Employer" <%= user.role === 'Employer' ? 'selected' : '' %>>Employer</option>
+                      <option value="Admin" <%= user.role === 'Admin' ? 'selected' : '' %>>Admin</option>
+                    </select>
+                  </form>
+                </td>
+                <td>
+                  <form action="/admin/users/<%= user.id %>/delete" method="POST">
+                    <button class="btn btn-danger btn-sm" type="submit">Delete</button>
+                  </form>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- Companies Section -->
+      <section id="companies" class="mt-5">
+        <h2 class="mb-3">Companies</h2>
+        <table class="table  table-bordered">
+          <thead>
+            <tr>
+              <th>Company Name</th>
+              <th>Address</th>
+              <th>Contact Info</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% companies.forEach(company => { %>
+              <tr>
+                <td><%= company.companyName %></td>
+                <td><%= company.address %></td>
+                <td><%= company.contactInfo %></td>
+                <td>
+                  <form action="/admin/companies/<%= company.companyId %>/delete" method="POST">
+                    <button class="btn btn-danger btn-sm" type="submit">Delete</button>
+                  </form>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- Jobs Section -->
+      <section id="jobs" class="mt-5">
+        <h2 class="mb-3">Jobs</h2>
+        <!-- Existing Jobs Table -->
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Job Title</th>
+              <th>Company</th>
+              <th>Location</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% jobs.forEach(job => { %>
+              <tr>
+                <td><%= job.jobTitle %></td>
+                <td><%= job.Company.companyName %></td>
+                <td><%= job.location %></td>
+                <td>
+                  <form action="/admin/jobs/<%= job.id %>/delete" method="POST">
+                    <button class="btn btn-danger btn-sm" type="submit">Delete</button>
+                  </form>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- Create Admin Section -->
+      <section id="create-admin" class="mt-5">
+        <div class="registration-container mx-auto">
+          <h2 class="card-title text-center mb-4">Create New Admin</h2>
+          <form action="/auth/register" method="POST" enctype="multipart/form-data">
+            <!-- Name -->
+            <div class="mb-3">
+              <label for="name" class="form-label">Full Name</label>
+              <input type="text" class="form-control" id="name" name="name" placeholder="Enter full name" required>
+            </div>
+
+            <!-- Email -->
+            <div class="mb-3">
+              <label for="email" class="form-label">Email Address</label>
+              <input type="email" class="form-control" id="email" name="email" placeholder="Enter email address" required>
+            </div>
+
+            <!-- Password -->
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input type="password" class="form-control" id="password" name="password" placeholder="Enter password" required>
+            </div>
+
+            <!-- Hidden Role Input -->
+            <input type="hidden" name="role" value="Admin">
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-primary w-100">Create Admin Account</button>
+          </form>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

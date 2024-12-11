@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registration | Next Step Workforce Solutions</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: bisque;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    .registration-container {
+      background-color: #fef8e7;
+      border-radius: 8px;
+      padding: 40px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      max-width: 450px;
+    }
+
+    .btn-primary {
+      background-color: rgb(8, 71, 92);
+      border: none;
+    }
+
+    .btn-primary:hover {
+      background-color: #2183aa;
+    }
+
+    .form-check-label {
+      font-size: 0.9rem;
+    }
+
+    .link {
+      color: rgb(8, 71, 92);
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .link:hover {
+      text-decoration: underline;
+    }
+
+    .card-title {
+      color: rgb(8, 71, 92);
+      font-size: 1.5rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Registration Form -->
+  <div class="registration-container">
+    <h2 class="card-title text-center mb-4">Register Your Account</h2>
+    <form action="/auth/register" method="POST" enctype="multipart/form-data">
+      <!-- Name -->
+      <div class="mb-3">
+        <label for="name" class="form-label">Full Name</label>
+        <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name" required>
+      </div>
+
+      <!-- Email -->
+      <div class="mb-3">
+        <label for="email" class="form-label">Email Address</label>
+        <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
+      </div>
+
+      <!-- Password -->
+      <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
+      </div>
+
+      <!-- Role -->
+      <div class="mb-3">
+        <label for="role" class="form-label">Select Role</label>
+        <select class="form-select" id="role" name="role" required>
+          <option value="" disabled selected>Choose your role</option>
+          <option value="JobSeeker">Job Seeker</option>
+          <option value="Employer">Employer</option>
+          
+        </select>
+      </div>
+
+      <!-- File Upload -->
+      <div class="mb-3">
+        <label for="validDocument" class="form-label">Upload Valid Document (Optional)</label>
+        <input type="file" class="form-control" id="validDocument" name="validDocument">
+      </div>
+
+      <!-- Terms and Conditions -->
+      
+
+      <!-- Submit Button -->
+      <button type="submit" class="btn btn-primary w-100">Create Account</button>
+    </form>
+
+    <!-- Login Link -->
+    <p class="text-center mt-3">
+      Already have an account? <a href="/login" class="link">Sign in here</a>
+    </p>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
